@@ -10,16 +10,19 @@ import com.example.finalapp.isValidEmail
 import com.example.finalapp.isValidPassword
 import com.example.finalapp.validate
 import com.google.android.gms.auth.api.Auth
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListener {
 
     private val mAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
     private val mGoogleApiClient: GoogleApiClient by lazy { getGoogleApiClient() }
+    private val RC_GOOGLE_SIGN_IN = 100
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,6 +90,31 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
 
         edtLayoutPassword.validate{
             edtLayoutPassword.editText?.error = if(isValidPassword(it)) null else "Invalid password"
+        }
+
+        btnSignInGoogle.setOnClickListener {
+            val signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient)
+            startActivityForResult(signInIntent, RC_GOOGLE_SIGN_IN)
+        }
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == RC_GOOGLE_SIGN_IN){
+            val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
+            if (result.isSuccess){
+                val account = result.signInAccount
+                logingByGoogleAccountIntoFirebase(account!!)
+            }
+        }
+    }
+
+    private fun logingByGoogleAccountIntoFirebase(googleAccount: GoogleSignInAccount){
+        val credentials = GoogleAuthProvider.getCredential(googleAccount.idToken, null)
+        mAuth.signInWithCredential(credentials).addOnCompleteListener(this){
+            Toast.makeText(this, "Sign in with Google", Toast.LENGTH_SHORT).show()
         }
     }
 
