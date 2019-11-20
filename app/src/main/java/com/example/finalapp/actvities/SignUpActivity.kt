@@ -59,19 +59,23 @@ class SignUpActivity : AppCompatActivity() {
         super.onStart()
         val currentUser = mAuth.currentUser
         if (currentUser == null){
-            Toast.makeText(this, "The user isnt logded in", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "The user isn't logged in", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(this, "The user is logded in", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "The user is now logged in", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun signUpByEmail(email: String, password: String){
         mAuth.createUserWithEmailAndPassword(email, password)
-        .addOnCompleteListener(this
-        ) { task ->
+        .addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
-                Toast.makeText(this, "An email has been sent to you. Please confirm to sign in.", Toast.LENGTH_SHORT).show()
-                val user = mAuth.currentUser
+                mAuth.currentUser!!.sendEmailVerification().addOnCompleteListener(this){
+                    Toast.makeText(this, "An email has been sent to you. Please confirm to sign in.", Toast.LENGTH_SHORT).show()
+
+                    val intent = Intent(this, LoginActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(intent)
+                }
             } else {
                 Toast.makeText(this, "An expected error occurred, please try again later", Toast.LENGTH_SHORT).show()
             }

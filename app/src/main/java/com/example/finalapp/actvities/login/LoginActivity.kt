@@ -72,12 +72,15 @@ class LoginActivity : AppCompatActivity() {
     //Acceder con un usuario creado
     private fun signInWithEmailAndPassword(email: String, password: String) {
         mAuth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this
-            ) { task ->
+            .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    Toast.makeText(this, "The user ${mAuth.currentUser?.displayName} has been logged in", Toast.LENGTH_SHORT).show()
+                    if(mAuth.currentUser!!.isEmailVerified){
+                        Toast.makeText(this, "The user ${mAuth.currentUser?.displayName} has been logged in", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this, "First confirm the mail we sent you", Toast.LENGTH_SHORT).show()
+                    }
                 } else {
-                    Toast.makeText(this, "Wrong user or password", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "An unexpected error occurred, please try again later", Toast.LENGTH_SHORT).show()
                 }
             }
     }
