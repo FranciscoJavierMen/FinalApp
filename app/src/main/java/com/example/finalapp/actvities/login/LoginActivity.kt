@@ -36,12 +36,12 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
         val currentUser = mAuth.currentUser
         if (currentUser == null){
             Toast.makeText(this, "The user isnt logded in", Toast.LENGTH_SHORT).show()
-            val myUser = mAuth.currentUser!!
-            myUser.displayName
-            myUser.email
-            myUser.phoneNumber
-            myUser.photoUrl
-            myUser.isEmailVerified
+            val myUser = mAuth.currentUser
+            myUser?.displayName
+            myUser?.email
+            myUser?.phoneNumber
+            myUser?.photoUrl
+            myUser?.isEmailVerified
         } else {
             Toast.makeText(this, "The user is logded in", Toast.LENGTH_SHORT).show()
         }
@@ -75,8 +75,9 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
         }
 
         txtForgotPassword.setOnClickListener {
-            val intent = Intent(this, ForgotPasswordActivity::class.java)
-            startActivity(intent)
+            //val intent = Intent(this, ForgotPasswordActivity::class.java)
+            //startActivity(intent)
+            mAuth.signOut()
         }
 
         btnNewAccount.setOnClickListener {
