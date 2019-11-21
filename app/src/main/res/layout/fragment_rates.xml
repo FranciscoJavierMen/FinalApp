@@ -6,4 +6,12 @@
     tools:context=".fragments.RatesFragment">
 
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Rate"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="24sp"/>
+
 </FrameLayout>
