@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.finalapp.R
+import com.example.finalapp.actvities.MainActivity
 import com.example.finalapp.actvities.utilities.isValidEmail
 import com.example.finalapp.actvities.utilities.isValidPassword
 import com.example.finalapp.actvities.utilities.validate
