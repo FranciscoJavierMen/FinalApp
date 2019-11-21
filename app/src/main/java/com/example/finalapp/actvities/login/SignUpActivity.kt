@@ -1,14 +1,13 @@
-package com.example.finalapp.actvities
+package com.example.finalapp.actvities.login
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.finalapp.actvities.login.LoginActivity
-import com.example.finalapp.isValidConfirmPassword
-import com.example.finalapp.isValidEmail
-import com.example.finalapp.isValidPassword
-import com.example.finalapp.validate
+import com.example.finalapp.actvities.utilities.isValidConfirmPassword
+import com.example.finalapp.actvities.utilities.isValidEmail
+import com.example.finalapp.actvities.utilities.isValidPassword
+import com.example.finalapp.actvities.utilities.validate
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_sign_up.*
 
@@ -35,7 +34,13 @@ class SignUpActivity : AppCompatActivity() {
             val password = edtSignUpLayoutPassword.editText!!.text.toString()
             val confirmPassword = edtSignUpLayoutConfirmPassword.editText?.text.toString()
 
-            if (isValidEmail(email) && isValidPassword(password) && isValidConfirmPassword(password, confirmPassword)){
+            if (isValidEmail(email) && isValidPassword(
+                    password
+                ) && isValidConfirmPassword(
+                    password,
+                    confirmPassword
+                )
+            ){
                 signUpByEmail(email, password)
             } else {
                 Toast.makeText(this, "Please fill all the boxes", Toast.LENGTH_SHORT).show()
@@ -43,15 +48,25 @@ class SignUpActivity : AppCompatActivity() {
         }
 
         edtSignUpLayoutEmail.validate{
-            edtSignUpLayoutEmail.editText?.error = if(isValidEmail(it)) null else "Invalid email"
+            edtSignUpLayoutEmail.editText?.error = if(isValidEmail(
+                    it
+                )
+            ) null else "Invalid email"
         }
 
         edtSignUpLayoutPassword.validate{
-            edtSignUpLayoutPassword.editText?.error = if(isValidPassword(it)) null else "Invalid password"
+            edtSignUpLayoutPassword.editText?.error = if(isValidPassword(
+                    it
+                )
+            ) null else "Invalid password"
         }
 
         edtSignUpLayoutConfirmPassword.validate{
-            edtSignUpLayoutConfirmPassword.editText?.error = if(isValidConfirmPassword(edtSignUpLayoutPassword.editText?.text.toString(), it)) null else "Confirmation password don't match with the password"
+            edtSignUpLayoutConfirmPassword.editText?.error = if(isValidConfirmPassword(
+                    edtSignUpLayoutPassword.editText?.text.toString(),
+                    it
+                )
+            ) null else "Confirmation password don't match with the password"
         }
     }
 

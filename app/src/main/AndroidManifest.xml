@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:theme="@android:style/Theme.NoDisplay"
-            android:name=".actvities.MainEmptyActivity">
+            android:name=".actvities.login.MainEmptyActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,7 +22,7 @@
             android:name=".actvities.login.ForgotPasswordActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".actvities.SignUpActivity"
+            android:name=".actvities.login.SignUpActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".actvities.login.LoginActivity"

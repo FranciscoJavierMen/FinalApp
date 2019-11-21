@@ -7,7 +7,7 @@
     android:background="@color/colorPrimaryDark"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:fillViewport="true"
-    tools:context=".actvities.SignUpActivity">
+    tools:context=".actvities.login.SignUpActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

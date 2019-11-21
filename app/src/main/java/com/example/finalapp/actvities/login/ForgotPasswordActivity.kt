@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.finalapp.R
-import com.example.finalapp.isValidEmail
-import com.example.finalapp.validate
+import com.example.finalapp.actvities.utilities.isValidEmail
+import com.example.finalapp.actvities.utilities.validate
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_forgot_password.*
 
@@ -24,7 +24,10 @@ class ForgotPasswordActivity : AppCompatActivity() {
     private fun initComponents() {
 
         edtRestorePasswordLayoutEmail.validate {
-            edtRestorePasswordLayoutEmail.editText?.error = if (isValidEmail(it)) null else "Invalid email"
+            edtRestorePasswordLayoutEmail.editText?.error = if (isValidEmail(
+                    it
+                )
+            ) null else "Invalid email"
         }
 
         btnGoToLogin.setOnClickListener{

@@ -5,10 +5,9 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.finalapp.R
-import com.example.finalapp.actvities.SignUpActivity
-import com.example.finalapp.isValidEmail
-import com.example.finalapp.isValidPassword
-import com.example.finalapp.validate
+import com.example.finalapp.actvities.utilities.isValidEmail
+import com.example.finalapp.actvities.utilities.isValidPassword
+import com.example.finalapp.actvities.utilities.validate
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -67,7 +66,10 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
             val email = edtLayoutEmail.editText?.text.toString()
             val password = edtLayoutPassword.editText?.text.toString()
 
-            if (isValidEmail(email) && isValidPassword(password)){
+            if (isValidEmail(email) && isValidPassword(
+                    password
+                )
+            ){
                 signInWithEmailAndPassword(email, password)
             } else {
                 Toast.makeText(this, "Wrong user or password", Toast.LENGTH_SHORT).show()
@@ -86,11 +88,17 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
         }
 
         edtLayoutEmail.validate{
-            edtLayoutEmail.editText?.error = if(isValidEmail(it)) null else "Invalid email"
+            edtLayoutEmail.editText?.error = if(isValidEmail(
+                    it
+                )
+            ) null else "Invalid email"
         }
 
         edtLayoutPassword.validate{
-            edtLayoutPassword.editText?.error = if(isValidPassword(it)) null else "Invalid password"
+            edtLayoutPassword.editText?.error = if(isValidPassword(
+                    it
+                )
+            ) null else "Invalid password"
         }
 
         btnSignInGoogle.setOnClickListener {

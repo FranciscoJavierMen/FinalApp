@@ -1,6 +1,5 @@
-package com.example.finalapp
+package com.example.finalapp.actvities.utilities
 
-import android.app.Activity
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Patterns

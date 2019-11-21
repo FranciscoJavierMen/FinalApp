@@ -1,10 +1,8 @@
-package com.example.finalapp.actvities
+package com.example.finalapp.actvities.login
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.finalapp.actvities.login.LoginActivity
-import com.example.finalapp.actvities.login.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class MainEmptyActivity : AppCompatActivity() {
