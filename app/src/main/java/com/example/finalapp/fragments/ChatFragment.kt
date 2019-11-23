@@ -14,13 +14,11 @@ import com.example.finalapp.adapters.ChatAdapter
 import com.example.finalapp.models.Messages
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.*
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.fragment_chat.view.*
 import java.util.*
+import java.util.EventListener
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
@@ -36,6 +34,8 @@ class ChatFragment : Fragment() {
     //Adaptador del chat para el recycler
     private lateinit var adapter: ChatAdapter
     private val messageList: ArrayList<Messages> = ArrayList()
+
+    private var chatSubscription: ListenerRegistration? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -71,7 +71,6 @@ class ChatFragment : Fragment() {
     //Evento del botón para enviar el mensaje
     private fun setUpChatBtn() {
         _view.fabSendChat.setOnClickListener{
-            Toast.makeText(context, "Mandar mensaje", Toast.LENGTH_SHORT).show()
             val messageText = editText.text.toString()
             if(messageText.isNotEmpty()){
                 val message = Messages(currentUser.uid, messageText, currentUser.photoUrl.toString(), Date())
@@ -90,7 +89,7 @@ class ChatFragment : Fragment() {
 
         chatDBReference.add(newMessage)
             .addOnCompleteListener {
-                Toast.makeText(context, "Message added!", Toast.LENGTH_SHORT).show()
+
             }
             .addOnFailureListener{
                 Toast.makeText(context, "Fail when try to save the message", Toast.LENGTH_SHORT).show()
@@ -98,7 +97,10 @@ class ChatFragment : Fragment() {
     }
     //Subscribirse a los cambios del chat
     private fun subscribeToChatMessages(){
-        chatDBReference.addSnapshotListener(object: EventListener, com.google.firebase.firestore.EventListener<QuerySnapshot>{
+        chatSubscription = chatDBReference
+            .orderBy("sentAt", Query.Direction.DESCENDING)
+            .limit(100)
+            .addSnapshotListener(object: EventListener, com.google.firebase.firestore.EventListener<QuerySnapshot>{
             override fun onEvent(snapshot: QuerySnapshot?, firebaseException: FirebaseFirestoreException?) {
                 firebaseException?.let {
                     Toast.makeText(context, "Exception", Toast.LENGTH_SHORT).show()
@@ -108,15 +110,18 @@ class ChatFragment : Fragment() {
                 snapshot?.let {
                     messageList.clear()
                     val messages = it.toObjects(Messages::class.java)
-                    messageList.addAll(messages)
+
+                    messageList.addAll(messages.asReversed())
                     adapter.notifyDataSetChanged()
+                    _view.recyclerChat.smoothScrollToPosition(messageList.size)
                 }
             }
 
         })
     }
 
-
-
-
+    override fun onDestroy() {
+        chatSubscription?.remove()
+        super.onDestroy()
+    }
 }
