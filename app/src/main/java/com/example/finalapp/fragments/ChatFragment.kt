@@ -61,7 +61,7 @@ class ChatFragment : Fragment() {
     }
     //Estableciendo el recyclerview
     private fun setUpRecyclerView() {
-        var layoutManager = LinearLayoutManager(context)
+        val layoutManager = LinearLayoutManager(context)
         adapter = ChatAdapter(messageList, currentUser.uid)
         _view.recyclerChat.setHasFixedSize(true)
         _view.recyclerChat.layoutManager = layoutManager
@@ -73,7 +73,8 @@ class ChatFragment : Fragment() {
         _view.fabSendChat.setOnClickListener{
             val messageText = editText.text.toString()
             if(messageText.isNotEmpty()){
-                val message = Messages(currentUser.uid, messageText, currentUser.photoUrl.toString(), Date())
+                val photo = currentUser.photoUrl?.let { currentUser.photoUrl.toString() } ?: run { "" }
+                val message = Messages(currentUser.uid, messageText, photo, Date())
                 saveMessage(message)
                 _view.editText.setText("")
             }
@@ -99,7 +100,6 @@ class ChatFragment : Fragment() {
     private fun subscribeToChatMessages(){
         chatSubscription = chatDBReference
             .orderBy("sentAt", Query.Direction.DESCENDING)
-            .limit(100)
             .addSnapshotListener(object: EventListener, com.google.firebase.firestore.EventListener<QuerySnapshot>{
             override fun onEvent(snapshot: QuerySnapshot?, firebaseException: FirebaseFirestoreException?) {
                 firebaseException?.let {

@@ -45,11 +45,19 @@ class ChatAdapter (val items: List<Messages>, val userId: String): RecyclerView.
             txtMessageRight.text = message.message
             txtTimeRight.text = SimpleDateFormat("hh:mm").format(message.sentAt)
             //Cargar imagen con picasso
-            Picasso.get().load(message.profileImageURL)
-                .resize(100, 100)
-                .centerCrop()
-                .transform(CircleTransform())
-                .into(imgProfileRight)
+            if(message.profileImageURL.isEmpty()){
+                Picasso.get().load(R.drawable.ic_person)
+                    .resize(100, 100)
+                    .centerCrop()
+                    .transform(CircleTransform())
+                    .into(imgProfileRight)
+            }else {
+                Picasso.get().load(message.profileImageURL)
+                    .resize(100, 100)
+                    .centerCrop()
+                    .transform(CircleTransform())
+                    .into(imgProfileRight)
+            }
         }
     }
 
@@ -58,11 +66,19 @@ class ChatAdapter (val items: List<Messages>, val userId: String): RecyclerView.
             txtMessageLeft.text = message.message
             txtTimeLeft.text = SimpleDateFormat("hh:mm").format(message.sentAt)
             //Cargar imagen con picasso
-            Picasso.get().load(message.profileImageURL)
-                .resize(100, 100)
-                .centerCrop()
-                .transform(CircleTransform())
-                .into(imgProfileLeft)
+            if(message.profileImageURL.isEmpty()){
+                Picasso.get().load(R.drawable.ic_person)
+                    .resize(100, 100)
+                    .centerCrop()
+                    .transform(CircleTransform())
+                    .into(imgProfileLeft)
+            }else {
+                Picasso.get().load(message.profileImageURL)
+                    .resize(100, 100)
+                    .centerCrop()
+                    .transform(CircleTransform())
+                    .into(imgProfileLeft)
+            }
         }
     }
 
