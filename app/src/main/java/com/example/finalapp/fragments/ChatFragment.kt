@@ -16,6 +16,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.fragment_chat.view.*
 import java.util.*
@@ -45,6 +47,7 @@ class ChatFragment : Fragment() {
         setUpCurrenuser()
         setUpRecyclerView()
         setUpChatBtn()
+        subscribeToChatMessages()
         return _view
     }
 
@@ -56,7 +59,7 @@ class ChatFragment : Fragment() {
     private fun setUpCurrenuser() {
         currentUser = mAuth.currentUser!!
     }
-
+    //Estableciendo el recyclerview
     private fun setUpRecyclerView() {
         var layoutManager = LinearLayoutManager(context)
         adapter = ChatAdapter(messageList, currentUser.uid)
@@ -65,7 +68,7 @@ class ChatFragment : Fragment() {
         _view.recyclerChat.itemAnimator = DefaultItemAnimator()
         _view.recyclerChat.adapter = adapter
     }
-
+    //Evento del botón para enviar el mensaje
     private fun setUpChatBtn() {
         _view.fabSendChat.setOnClickListener{
             Toast.makeText(context, "Mandar mensaje", Toast.LENGTH_SHORT).show()
@@ -77,7 +80,7 @@ class ChatFragment : Fragment() {
             }
         }
     }
-
+    //Guardar mensajes en FireStore
     private fun saveMessage(message: Messages){
         val newMessage = HashMap<String, Any>()
         newMessage["authorId"] = message.authorId
@@ -93,7 +96,25 @@ class ChatFragment : Fragment() {
                 Toast.makeText(context, "Fail when try to save the message", Toast.LENGTH_SHORT).show()
             }
     }
+    //Subscribirse a los cambios del chat
+    private fun subscribeToChatMessages(){
+        chatDBReference.addSnapshotListener(object: EventListener, com.google.firebase.firestore.EventListener<QuerySnapshot>{
+            override fun onEvent(snapshot: QuerySnapshot?, firebaseException: FirebaseFirestoreException?) {
+                firebaseException?.let {
+                    Toast.makeText(context, "Exception", Toast.LENGTH_SHORT).show()
+                    return
+                }
 
+                snapshot?.let {
+                    messageList.clear()
+                    val messages = it.toObjects(Messages::class.java)
+                    messageList.addAll(messages)
+                    adapter.notifyDataSetChanged()
+                }
+            }
+
+        })
+    }
 
 
 

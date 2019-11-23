@@ -28,8 +28,8 @@ class ChatAdapter (val items: List<Messages>, val userId: String): RecyclerView.
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when(viewType){
-            MY_MESSAGE -> ViewHolderR(LayoutInflater.from(parent.context).inflate(layoutRight, parent))
-            else -> ViewHolderL(LayoutInflater.from(parent.context).inflate(layoutLeft, parent))
+            MY_MESSAGE -> ViewHolderR(LayoutInflater.from(parent.context).inflate(layoutRight, parent, false))
+            else -> ViewHolderL(LayoutInflater.from(parent.context).inflate(layoutLeft, parent, false))
         }
     }
 
