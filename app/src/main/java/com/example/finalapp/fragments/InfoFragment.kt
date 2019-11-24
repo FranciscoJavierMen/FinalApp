@@ -2,22 +2,18 @@ package com.example.finalapp.fragments
 
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-
+import androidx.fragment.app.Fragment
 import com.example.finalapp.R
-import com.example.finalapp.models.Messages
 import com.example.finalapp.utils.CircleTransform
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_info.view.*
-import kotlinx.android.synthetic.main.item_chat_right.view.*
-import java.util.*
 import java.util.EventListener
 
 class InfoFragment : Fragment() {
@@ -75,7 +71,7 @@ class InfoFragment : Fragment() {
     }
 
     private fun subscribeToTotalMessagesFirebase(){
-        chatDBReference.addSnapshotListener(object: EventListener, com.google.firebase.firestore.EventListener<QuerySnapshot>{
+        chatSubscription = chatDBReference.addSnapshotListener(object: EventListener, com.google.firebase.firestore.EventListener<QuerySnapshot>{
                 override fun onEvent(snapshot: QuerySnapshot?, firebaseException: FirebaseFirestoreException?) {
                     firebaseException?.let {
                         Toast.makeText(context, "Exception", Toast.LENGTH_SHORT).show()
@@ -86,6 +82,11 @@ class InfoFragment : Fragment() {
                 }
 
             })
+    }
+
+    override fun onDestroyView() {
+        chatSubscription?.remove()
+        super.onDestroyView()
     }
 
 }
