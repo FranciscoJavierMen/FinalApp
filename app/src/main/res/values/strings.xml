@@ -19,4 +19,6 @@
     <string name="navigation_bottom_info">Info</string>
     <string name="navigation_bottom_rate">Rate</string>
     <string name="text_hint_message">Type your message</string>
+    <string name="text_info_description">Android Developer</string>
+    <string name="text_no_name">No name available</string>
 </resources>
