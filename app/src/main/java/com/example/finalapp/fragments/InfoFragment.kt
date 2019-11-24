@@ -6,17 +6,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 
 import com.example.finalapp.R
+import com.example.finalapp.models.Messages
 import com.example.finalapp.utils.CircleTransform
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.firestore.*
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_info.view.*
 import kotlinx.android.synthetic.main.item_chat_right.view.*
+import java.util.*
+import java.util.EventListener
 
 class InfoFragment : Fragment() {
 
@@ -38,6 +40,7 @@ class InfoFragment : Fragment() {
         setUpChatDB()
         setUpCurrenuser()
         setupCurrentUserInformationUI()
+        subscribeToTotalMessagesFirebase()
 
         return _view
     }
@@ -51,6 +54,7 @@ class InfoFragment : Fragment() {
         currentUser = mAuth.currentUser!!
     }
 
+    //Muestra los detalles del usuario logueado
     private fun setupCurrentUserInformationUI() {
         _view.txtInfoEmail.text = currentUser.email
         _view.textView4.text = currentUser.displayName?.let { currentUser.displayName } ?: run {getString(R.string.text_no_name)}
@@ -68,6 +72,20 @@ class InfoFragment : Fragment() {
                 .into(_view.imgInfo)
         }
 
+    }
+
+    private fun subscribeToTotalMessagesFirebase(){
+        chatDBReference.addSnapshotListener(object: EventListener, com.google.firebase.firestore.EventListener<QuerySnapshot>{
+                override fun onEvent(snapshot: QuerySnapshot?, firebaseException: FirebaseFirestoreException?) {
+                    firebaseException?.let {
+                        Toast.makeText(context, "Exception", Toast.LENGTH_SHORT).show()
+                        return
+                    }
+
+                    snapshot?.let { _view.fabInfoCount.text = "${it.size()}" }
+                }
+
+            })
     }
 
 }
