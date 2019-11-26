@@ -23,4 +23,9 @@
     <string name="text_no_name">No name available</string>
     <string name="text_logout">LogOut</string>
     <string name="text_rate">Rate</string>
+    
+    <string name="dialog_title">Rate the App</string>
+    <string name="dialog_hint">Lead your feedback</string>
+    <string name="dialog_ok">Rate</string>
+    <string name="dialog_cancel">Cancel</string>
 </resources>
