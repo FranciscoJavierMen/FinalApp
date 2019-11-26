@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.finalapp.R
 import com.example.finalapp.adapters.ChatAdapter
 import com.example.finalapp.models.Messages
+import com.example.finalapp.models.TotalMessagesEvent
+import com.example.finalapp.utils.RxBus
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
@@ -114,6 +116,8 @@ class ChatFragment : Fragment() {
                     messageList.addAll(messages.asReversed())
                     adapter.notifyDataSetChanged()
                     _view.recyclerChat.smoothScrollToPosition(messageList.size)
+
+                    RxBus.publish(TotalMessagesEvent(messageList.size))
                 }
             }
 

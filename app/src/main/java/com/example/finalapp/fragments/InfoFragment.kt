@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.finalapp.R
+import com.example.finalapp.models.TotalMessagesEvent
 import com.example.finalapp.utils.CircleTransform
+import com.example.finalapp.utils.RxBus
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
@@ -36,7 +38,8 @@ class InfoFragment : Fragment() {
         setUpChatDB()
         setUpCurrenuser()
         setupCurrentUserInformationUI()
-        subscribeToTotalMessagesFirebase()
+        //subscribeToTotalMessagesFirebase()
+        subscribeToTotalMesaagesEventBusReactive()
 
         return _view
     }
@@ -82,6 +85,12 @@ class InfoFragment : Fragment() {
                 }
 
             })
+    }
+
+    private fun subscribeToTotalMesaagesEventBusReactive(){
+        RxBus.listen(TotalMessagesEvent::class.java).subscribe({
+            _view.fabInfoCount.text = "${it.total}"
+        })
     }
 
     override fun onDestroyView() {
