@@ -1,15 +1,19 @@
 package com.example.finalapp.actvities
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.viewpager.widget.ViewPager
 import com.example.finalapp.R
+import com.example.finalapp.actvities.login.LoginActivity
 import com.example.finalapp.adapters.PagerAdapter
 import com.example.finalapp.fragments.ChatFragment
 import com.example.finalapp.fragments.InfoFragment
 import com.example.finalapp.fragments.RatesFragment
 import com.example.mylibrary.ToolbarActivity
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : ToolbarActivity() {
@@ -88,5 +92,24 @@ class MainActivity : ToolbarActivity() {
                 else -> false
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+        menuInflater.inflate(R.menu.general_options_menu, menu)
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.logOut -> {
+                FirebaseAuth.getInstance().signOut()
+                val intent = Intent(this, LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
