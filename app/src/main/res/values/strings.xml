@@ -22,4 +22,5 @@
     <string name="text_info_description">Android Developer</string>
     <string name="text_no_name">No name available</string>
     <string name="text_logout">LogOut</string>
+    <string name="text_rate">Rate</string>
 </resources>

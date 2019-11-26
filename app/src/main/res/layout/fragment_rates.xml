@@ -14,14 +14,16 @@
         android:scrollbars="vertical"/>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fabRate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:text="Rate"
+        android:text="@string/text_rate"
         app:icon="@drawable/ic_star"
         app:iconTint="@android:color/white"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
-        app:backgroundTint="@color/colorAccent"/>
+        app:backgroundTint="@color/colorAccent"
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"/>
 </FrameLayout>
