@@ -25,9 +25,14 @@ class RateDialog : DialogFragment() {
             .setView(view)
             .setPositiveButton(getString(R.string.dialog_ok)){ _, _ ->
                 val textRate = view.edtRateNote.editText?.text.toString()
-                val imgURL = FirebaseAuth.getInstance().currentUser!!.photoUrl.toString() ?: run{ "" }
-                val rate = Rate(textRate, view.ratingBar.rating, Date(), imgURL)
-                RxBus.publish(RateEvent(rate))
+                if(textRate.isNotEmpty()){
+                    val imgURL = FirebaseAuth.getInstance().currentUser!!.photoUrl.toString() ?: run{ "" }
+                    val rate = Rate(textRate, view.ratingBar.rating, Date(), imgURL)
+                    RxBus.publish(RateEvent(rate))
+                } else {
+                    Toast.makeText(context, "The rate description cannot be empty", Toast.LENGTH_SHORT).show()
+                }
+
             }
             .setNegativeButton(getString(R.string.dialog_cancel)){ _, _ ->
                 Toast.makeText(context, "Action cancelled", Toast.LENGTH_SHORT).show()

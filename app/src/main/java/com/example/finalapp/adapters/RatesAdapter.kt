@@ -22,8 +22,13 @@ class RatesAdapter(private val items: ArrayList<Rate>): RecyclerView.Adapter<Rat
             txtComment.text = rate.text
             txtCalendar.text = SimpleDateFormat("dd MMM, yyyy").format(rate.createdAt)
             txtRateCount.text = "${rate.rate}"
-            Picasso.get().load(rate.profileImgUrl).resize(100, 100)
-                .centerCrop().transform(CircleTransform()).into(imgProfile)
+            if (rate.profileImgUrl.isEmpty()){
+                Picasso.get().load(R.drawable.ic_person).resize(100, 100)
+                    .centerCrop().transform(CircleTransform()).into(imgProfile)
+            } else {
+                Picasso.get().load(rate.profileImgUrl).resize(100, 100)
+                    .centerCrop().transform(CircleTransform()).into(imgProfile)
+            }
         }
     }
 
