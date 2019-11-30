@@ -24,6 +24,5 @@
         app:iconTint="@android:color/white"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
-        app:backgroundTint="@color/colorAccent"
-        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"/>
+        app:backgroundTint="@color/colorAccent" />
 </FrameLayout>
